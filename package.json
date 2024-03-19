@@ -1,0 +1,15 @@
+{
+  "version": "0.0.5",
+  "private": false,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r --filter=./packages/* run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.27",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.6"
+  }
+}
