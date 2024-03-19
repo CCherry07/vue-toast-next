@@ -27,7 +27,7 @@ Add the Toaster to your app first. It will take care of rendering all notificati
 
 ```html
 <script setup lang="ts">
-import { Toaster, toast } from "vue-toast-next"
+import { Toaster, toast } from "vue-toast-next";
 const notify = () => toast('Here is your toast.');
 
 </script>
