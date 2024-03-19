@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@hot-toast/vue": "workspace:^",
+    "vue-toast-next": "workspace:^",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
     "vue": "^3.4.21"
   },

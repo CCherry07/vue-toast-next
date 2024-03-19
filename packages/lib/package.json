@@ -1,7 +1,7 @@
 {
-  "name": "vue-next-toast",
+  "name": "vue-toast-next",
   "version": "0.0.1",
-  "description": "vue-next-toast",
+  "description": "vue-toast-next",
   "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,8 +20,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CCherry07/hot-toast.git",
-    "directory": "packages/vue"
+    "url": "git+https://github.com/CCherry07/vue-toast-next.git",
+    "directory": "packages/lib"
   },
   "keywords": [
     "vue",

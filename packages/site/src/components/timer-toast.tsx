@@ -1,4 +1,4 @@
-import { Toast, toast } from "@hot-toast/vue";
+import { Toast, toast } from "vue-toast-next";
 import { ref } from "vue";
 
 // Toast with a countdown timer

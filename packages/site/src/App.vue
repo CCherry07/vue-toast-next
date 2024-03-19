@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Toaster, toast } from "@hot-toast/vue"
+import { Toaster, toast } from "vue-toast-next"
 import { triggerTimerToast } from "./components/timer-toast"
 const handleClick = ()=>{
   toast.success("success")
