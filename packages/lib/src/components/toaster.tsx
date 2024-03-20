@@ -16,6 +16,7 @@ const createToasterProps = () => ({
   gutter: Number,
   containerStyle: Object as PropType<CSSProperties>,
   containerClassName: String,
+  stacked: Boolean
 })
 
 const createToastWrapperProps = () => ({
@@ -97,8 +98,63 @@ export const Toaster = defineComponent({
   setup(props, { slots }) {
     const { toasts, handlers } = useToaster(props.toastOptions);
     const meragedPosition = computed(() => props.position || "top-center")
+    const collapsed = shallowRef(true)
+    const setIsCollapsed = (v: boolean) => collapsed.value = v
+    const containerRef = shallowRef<HTMLElement>()
+    function collapseAll() {
+      if (props.stacked) {
+        setIsCollapsed(true);
+      }
+    }
+    function onMouseenter() {
+      if (props.stacked) {
+        setIsCollapsed(false);
+      }
+      handlers.startPause()
+    }
+
+    function onMouseleave() {
+      collapseAll()
+      handlers.endPause()
+    }
+    function doCollapse() {
+      if (props.stacked) {
+        const nodes = containerRef.value!.querySelectorAll('[data-in="true"]');
+        const gap = 12;
+        const isTop = props.position?.includes('top');
+        let usedHeight = 0;
+        let prevS = 0;
+
+        Array.from(nodes)
+          .reverse()
+          .forEach((n, i) => {
+            const node = n as HTMLElement;
+            node.classList.add(`Toastify__toast--stacked`);
+
+            if (i > 0) node.dataset.collapsed = `${collapsed}`;
+
+            if (!node.dataset.pos) node.dataset.pos = isTop ? 'top' : 'bot';
+
+            const y =
+              usedHeight * (collapsed ? 0.2 : 1) + (collapsed ? 0 : gap * i);
+
+            node.style.setProperty('--y', `${isTop ? y : y * -1}px`);
+            node.style.setProperty('--g', `${gap}`);
+            node.style.setProperty('--s', `${1 - (collapsed ? prevS : 0)}`);
+
+            usedHeight += node.offsetHeight;
+            prevS += 0.025;
+          });
+      }
+    }
+
+    watch(() => [props.stacked, collapsed.value], () => {
+      doCollapse()
+    })
+
     return () => (
       <div
+        ref={containerRef}
         style={{
           position: 'fixed',
           zIndex: 9999,
@@ -110,8 +166,8 @@ export const Toaster = defineComponent({
           ...props.containerStyle,
         }}
         class={props.containerClassName}
-        onMouseenter={handlers.startPause}
-        onMouseleave={handlers.endPause}
+        onMouseenter={onMouseenter}
+        onMouseleave={onMouseleave}
       >
         {toasts.value.map((t) => {
           const toastPosition = t.position || meragedPosition.value;
