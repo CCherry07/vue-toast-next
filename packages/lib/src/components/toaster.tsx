@@ -21,8 +21,6 @@ const createToasterProps = () => ({
 
 const createToastWrapperProps = () => ({
   id: String,
-  className: String,
-  style: Object as PropType<CSSProperties>,
   onHeightUpdate: Function as PropType<(id: string, height: number) => void>
 })
 const ToastWrapper = defineComponent({
@@ -46,7 +44,7 @@ const ToastWrapper = defineComponent({
     })
 
     return () => (
-      <div ref={ref} id={props.id} key={props.id} class={props.className} style={props.style}>
+      <div ref={ref} id={props.id} key={props.id}>
         {slots?.default()}
       </div>
     );
@@ -163,7 +161,7 @@ export const Toaster = defineComponent({
               id={t.id}
               key={t.id}
               onHeightUpdate={handlers.updateHeight}
-              className={t.visible ? activeClass : ''}
+              class={t.visible ? activeClass : ''}
               style={positionStyle}
             >
               {
