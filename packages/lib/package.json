@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "div": "vite",
-    "watch":"vite build --watch",
+    "watch": "vite build --watch",
     "build": "vite build"
   },
   "files": [

@@ -7,7 +7,7 @@ from {
 	opacity: 0;
 }
 to {
- transform: scale(1) rotate(45deg);
+  transform: scale(1) rotate(45deg);
   opacity: 1;
 }`;
 

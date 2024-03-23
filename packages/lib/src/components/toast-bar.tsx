@@ -80,6 +80,7 @@ export const getAnimationStyle = (
 
 export const ToastBar = defineComponent({
   name: "ToastBar",
+  inheritAttrs: false,
   props: createToastBarProps(),
   setup(props, { slots }) {
     const animationStyle = computed(() => props.toast.height
