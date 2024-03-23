@@ -2,7 +2,7 @@ import { Toast, toast } from "vue-toast-next";
 import { ref } from "vue";
 
 // Toast with a countdown timer
-const duration = Infinity
+const duration = 6000
 export const triggerTimerToast = () => {
   const life = ref(100);
   const setLife = (v: number) => {
