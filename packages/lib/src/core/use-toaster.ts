@@ -19,8 +19,10 @@ const startPause = () => {
 const clearLeaveTimeout = (timeouts: number[]) => {
   timeouts.forEach((timeout) => timeout && clearTimeout(timeout));
 }
-
-export const useToaster = (toastOptions?: DefaultToastOptions) => {
+interface ExtraConfig {
+  stacked: boolean
+}
+export const useToaster = (toastOptions?: DefaultToastOptions, extraConfig?: ExtraConfig) => {
   const { toasts, pausedAt } = useStore(toastOptions);
   let timeouts = shallowRef([])
   watch([toasts, pausedAt], () => {
@@ -46,11 +48,11 @@ export const useToaster = (toastOptions?: DefaultToastOptions) => {
       return setTimeout(() => toast.dismiss(t.id), durationLeft);
     });
   });
-  
+
   onUnmounted(() => {
     clearLeaveTimeout(timeouts.value)
   })
-  
+
   const endPause = () => {
     if (pausedAt) {
       dispatch({ type: ActionType.END_PAUSE, time: Date.now() });

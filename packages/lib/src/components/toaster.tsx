@@ -67,6 +67,7 @@ export const Toaster = defineComponent({
   setup(props, { slots }) {
     const { toasts, handlers } = useToaster(props.toastOptions);
     const meragedPosition = computed(() => props.position || "top-center")
+    const meragedToasts = computed(() => props.stacked ? toasts.value.reverse() : toasts.value)
     const collapsed = shallowRef(true)
     const setIsCollapsed = (v: boolean) => collapsed.value = v
     const containerRef = shallowRef<HTMLElement>()
@@ -148,10 +149,10 @@ export const Toaster = defineComponent({
         onMouseenter={onMouseenter}
         onMouseleave={onMouseleave}
       >
-        {toasts.value.reverse().map((t, i) => {
+        {meragedToasts.value.map((t, i) => {
           const toastPosition = t.position || meragedPosition.value;
           const offset = handlers.calculateOffset(t, {
-            reverseOrder: true,
+            reverseOrder: props.stacked ? true : props.reverseOrder,
             gutter: props.gutter,
             defaultPosition: meragedPosition.value,
           });
