@@ -11,7 +11,7 @@ const handleClick = ()=>{
   <div>
     <button @click="handleClick">trigger toast</button>
     <button @click="triggerTimerToast">Timer toast</button>
-    <Toaster />
+    <Toaster :stacked="true" />
   </div>
 </template>
 

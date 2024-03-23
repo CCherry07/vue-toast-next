@@ -46,50 +46,19 @@ const ToastWrapper = defineComponent({
     })
 
     return () => (
-      <div ref={ref} class={props.className} style={props.style}>
+      <div ref={ref} id={props.id} key={props.id} class={props.className} style={props.style}>
         {slots?.default()}
       </div>
     );
   }
 })
 
-
-const getPositionStyle = (
-  position: ToastPosition,
-  offset: number
-): CSSProperties => {
-  const top = position.includes('top');
-  const verticalStyle: CSSProperties = top ? { top: 0 } : { bottom: 0 };
-  const horizontalStyle: CSSProperties = position.includes('center')
-    ? {
-      justifyContent: 'center',
-    }
-    : position.includes('right')
-      ? {
-        justifyContent: 'flex-end',
-      }
-      : {};
-  return {
-    left: 0,
-    right: 0,
-    display: 'flex',
-    position: 'absolute',
-    transition: prefersReducedMotion()
-      ? undefined
-      : `all 230ms cubic-bezier(.21,1.02,.73,1)`,
-    transform: `translateY(${offset * (top ? 1 : -1)}px)`,
-    ...verticalStyle,
-    ...horizontalStyle,
-  };
-};
-
 const activeClass = css`
-  z-index: 9999;
-  > * {
-    pointer-events: auto;
-  }
+z-index: 9999;
+> * {
+  pointer-events: auto;
+}
 `;
-
 const DEFAULT_OFFSET = 16;
 
 export const Toaster = defineComponent({
@@ -117,41 +86,51 @@ export const Toaster = defineComponent({
       collapseAll()
       handlers.endPause()
     }
-    function doCollapse() {
+
+    const getPositionStyle = (
+      position: ToastPosition,
+      offset: number,
+      collapsed: boolean,
+      prevS: number
+    ): CSSProperties => {
+      const top = position.includes('top');
+      const verticalStyle: CSSProperties = top ? { top: 0 } : { bottom: 0 };
+      const horizontalStyle: CSSProperties = position.includes('center')
+        ? {
+          justifyContent: 'center',
+        }
+        : position.includes('right')
+          ? {
+            left: undefined,
+          }
+          : {
+            right: undefined
+          };
+
+      let y = offset
+      let s = 1
       if (props.stacked) {
-        const nodes = containerRef.value!.querySelectorAll('[data-in="true"]');
-        const gap = 12;
-        const isTop = props.position?.includes('top');
-        let usedHeight = 0;
-        let prevS = 0;
-
-        Array.from(nodes)
-          .reverse()
-          .forEach((n, i) => {
-            const node = n as HTMLElement;
-            node.classList.add(`Toastify__toast--stacked`);
-
-            if (i > 0) node.dataset.collapsed = `${collapsed}`;
-
-            if (!node.dataset.pos) node.dataset.pos = isTop ? 'top' : 'bot';
-
-            const y =
-              usedHeight * (collapsed ? 0.2 : 1) + (collapsed ? 0 : gap * i);
-
-            node.style.setProperty('--y', `${isTop ? y : y * -1}px`);
-            node.style.setProperty('--g', `${gap}`);
-            node.style.setProperty('--s', `${1 - (collapsed ? prevS : 0)}`);
-
-            usedHeight += node.offsetHeight;
-            prevS += 0.025;
-          });
+        y = offset * (collapsed ? 0.2 : 1)
+        if (!top) {
+          y = -y
+        }
+        s = 1 - (collapsed ? prevS : 0)
       }
-    }
 
-    watch(() => [props.stacked, collapsed.value], () => {
-      doCollapse()
-    })
-
+      return {
+        left: 0,
+        right: 0,
+        display: 'flex',
+        position: 'absolute',
+        direction: 'ltr',
+        transition: prefersReducedMotion()
+          ? undefined
+          : `all 230ms cubic-bezier(.21,1.02,.73,1)`,
+        transform: `translate3d(0, ${y}px, 0) scale(${s})`,
+        ...verticalStyle,
+        ...horizontalStyle,
+      };
+    };
     return () => (
       <div
         ref={containerRef}
@@ -169,15 +148,15 @@ export const Toaster = defineComponent({
         onMouseenter={onMouseenter}
         onMouseleave={onMouseleave}
       >
-        {toasts.value.map((t) => {
+        {toasts.value.reverse().map((t, i) => {
           const toastPosition = t.position || meragedPosition.value;
           const offset = handlers.calculateOffset(t, {
-            reverseOrder: props.reverseOrder,
+            reverseOrder: true,
             gutter: props.gutter,
             defaultPosition: meragedPosition.value,
           });
-
-          const positionStyle = getPositionStyle(toastPosition, offset);
+          const reverseIdx = toasts.value.length - i - 1
+          const positionStyle = getPositionStyle(toastPosition, offset, props.stacked && collapsed.value, reverseIdx * 0.025);
           return (
             <ToastWrapper
               id={t.id}
