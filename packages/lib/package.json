@@ -1,6 +1,6 @@
 {
   "name": "vue-toast-next",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "vue-toast-next",
   "private": false,
   "main": "dist/index.js",
