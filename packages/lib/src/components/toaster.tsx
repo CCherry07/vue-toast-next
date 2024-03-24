@@ -69,6 +69,7 @@ export const Toaster = defineComponent({
     const collapsed = shallowRef(true)
     const setIsCollapsed = (v: boolean) => collapsed.value = v
     const containerRef = shallowRef<HTMLElement>()
+    const containerKey = computed(() => String(props.stacked))
     function collapseAll() {
       if (props.stacked) {
         setIsCollapsed(true);
@@ -121,7 +122,6 @@ export const Toaster = defineComponent({
         right: 0,
         display: 'flex',
         position: 'absolute',
-        direction: 'ltr',
         transition: prefersReducedMotion()
           ? undefined
           : `all 230ms cubic-bezier(.21,1.02,.73,1)`,
@@ -144,6 +144,7 @@ export const Toaster = defineComponent({
           ...props.containerStyle,
         }}
         class={props.containerClassName}
+        key={containerKey.value}
         onMouseenter={onMouseenter}
         onMouseleave={onMouseleave}
       >
