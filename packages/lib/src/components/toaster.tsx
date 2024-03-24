@@ -57,7 +57,7 @@ z-index: 9999;
   pointer-events: auto;
 }
 `;
-const DEFAULT_OFFSET = 16;
+const DEFAULT_OFFSET = '16px';
 
 export const Toaster = defineComponent({
   name: "Toaster",
@@ -136,10 +136,10 @@ export const Toaster = defineComponent({
         style={{
           position: 'fixed',
           zIndex: 9999,
-          top: DEFAULT_OFFSET + 'px',
-          left: DEFAULT_OFFSET + 'px',
-          right: DEFAULT_OFFSET + 'px',
-          bottom: DEFAULT_OFFSET + 'px',
+          top: DEFAULT_OFFSET,
+          left: DEFAULT_OFFSET,
+          right: DEFAULT_OFFSET,
+          bottom: DEFAULT_OFFSET,
           pointerEvents: 'none',
           ...props.containerStyle,
         }}
@@ -155,7 +155,7 @@ export const Toaster = defineComponent({
             defaultPosition: meragedPosition.value,
           });
           const reverseIdx = toasts.value.length - i - 1
-          const positionStyle = getPositionStyle(toastPosition, offset, props.stacked && collapsed.value, reverseIdx * 0.025);
+          const positionStyle = getPositionStyle(toastPosition, offset, collapsed.value, reverseIdx * 0.025);
           return (
             <ToastWrapper
               id={t.id}

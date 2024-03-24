@@ -19,10 +19,8 @@ const startPause = () => {
 const clearLeaveTimeout = (timeouts: number[]) => {
   timeouts.forEach((timeout) => timeout && clearTimeout(timeout));
 }
-interface ExtraConfig {
-  stacked: boolean
-}
-export const useToaster = (toastOptions?: DefaultToastOptions, extraConfig?: ExtraConfig) => {
+
+export const useToaster = (toastOptions?: DefaultToastOptions) => {
   const { toasts, pausedAt } = useStore(toastOptions);
   let timeouts = shallowRef([])
   watch([toasts, pausedAt], () => {
