@@ -16,7 +16,19 @@ to {
   opacity: 1;
 }`;
 
-const exclamationAnimation = keyframes`
+const firstLineAnimation = keyframes`
+0% {
+  opacity: 0;
+  scale: 0;
+  height: 0px;
+}
+100% {
+  opacity: 1;
+  scale: 1;
+  height: 7px
+}`;
+
+const secondLineAnimation = keyframes`
 0% {
   opacity: 0;
   scale: 0;
@@ -44,7 +56,7 @@ const warningIconStyle = (props: WarningTheme) => css`
   }
 
   &:before {
-    animation: ${exclamationAnimation} 0.2s ease-out forwards;
+    animation: ${firstLineAnimation} 0.2s ease-out forwards;
     opacity: 0;
     background: ${props.secondary || '#fff'};
     top: 4px;
@@ -55,7 +67,7 @@ const warningIconStyle = (props: WarningTheme) => css`
   }
 
   &:after {
-    animation: ${exclamationAnimation} 0.2s ease-out forwards;
+    animation: ${secondLineAnimation} 0.2s ease-out forwards;
     opacity: 0;
     background: ${props.secondary || '#fff'};
     bottom: 5px;
@@ -69,7 +81,7 @@ const warningIconStyle = (props: WarningTheme) => css`
 
 
 export const WarningIcon = defineComponent({
-  name:"WarningIcon",
+  name: "WarningIcon",
   props: ['primary', 'secondary'],
   setup(props) {
     return () => <div class={warningIconStyle(props)}>
