@@ -173,6 +173,7 @@ export const defaultTimeouts: {
   blank: 4000,
   error: 4000,
   success: 2000,
+  warning: 4000,
   loading: Infinity,
   custom: 4000,
 };

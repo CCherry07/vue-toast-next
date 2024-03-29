@@ -3,7 +3,7 @@ import { JSX } from "vue/jsx-runtime"
 declare type VNodeChildAtom = VNode | string | number | boolean | null | undefined | void;
 export type VueNode = VNodeChildAtom | VNodeChildAtom[] | JSX.Element;
 
-export type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'custom';
+export type ToastType = 'success' | 'error' | 'warning' | 'loading' | 'blank' | 'custom';
 export type ToastPosition =
   | 'top-left'
   | 'top-center'

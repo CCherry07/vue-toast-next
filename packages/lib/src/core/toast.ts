@@ -46,6 +46,7 @@ const toast = (message: Message, opts?: ToastOptions) =>
 
 toast.error = createHandler('error');
 toast.success = createHandler('success');
+toast.warning = createHandler('warning')
 toast.loading = createHandler('loading');
 toast.custom = createHandler('custom');
 

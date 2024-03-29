@@ -1,6 +1,7 @@
 import { keyframes } from 'goober';
 import { Toast } from '../core/types';
 import { ErrorIcon, ErrorTheme } from './error';
+import { WarningIcon, WarningTheme } from "./warning";
 import { LoaderIcon, LoaderTheme } from './loader';
 import { CheckmarkIcon, CheckmarkTheme } from './checkmark';
 import { CSSProperties, PropType, computed, defineComponent } from 'vue';
@@ -65,6 +66,7 @@ export const AnimatedIconWrapper = defineComponent({
 export type IconThemes = Partial<{
   success: CheckmarkTheme;
   error: ErrorTheme;
+  warning: WarningTheme,
   loading: LoaderTheme;
 }>;
 
@@ -77,6 +79,19 @@ export const ToastIcon = defineComponent({
     const type = computed(() => props.toast.type)
     const iconTheme = computed(() => props.toast.iconTheme)
     const icon = computed(() => props.toast.icon)
+
+    const iconNode = computed(() => {
+      switch (type.value) {
+        case 'success':
+          return <CheckmarkIcon {...iconTheme.value} />
+        case 'error':
+          return <ErrorIcon {...iconTheme.value} />
+        case 'warning':
+          return <WarningIcon {...iconTheme.value} />
+        default:
+          return null
+      }
+    })
 
     return () => {
       if (icon.value !== undefined) {
@@ -94,11 +109,7 @@ export const ToastIcon = defineComponent({
         {
           type.value !== 'loading' && (
             <StatusWrapper>
-              {type.value === 'error' ? (
-                <ErrorIcon {...iconTheme.value} />
-              ) : (
-                <CheckmarkIcon {...iconTheme.value} />
-              )}
+              {iconNode.value}
             </StatusWrapper>)
         }
       </IndicatorWrapper>
