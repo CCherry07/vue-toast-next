@@ -8,8 +8,8 @@
     "build": "pnpm -r --filter=./packages/* run build"
   },
   "devDependencies": {
-    "@types/node": "^20.11.27",
-    "typescript": "^5.2.2",
-    "vite": "^5.1.6"
+    "@types/node": "^20.11.30",
+    "typescript": "^5.4.3",
+    "vite": "^5.2.7"
   }
 }
