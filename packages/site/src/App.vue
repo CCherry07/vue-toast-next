@@ -16,7 +16,7 @@ const handleSwitchStacked = () => {
   <div>
     <button @click="handleClick('success')">success toast</button>
     <button @click="handleClick('warning')">warning toast</button>
-    <button @click="handleClick('error')">warning toast</button>
+    <button @click="handleClick('error')">error toast</button>
     <button @click="triggerTimerToast"> Timer toast</button>
     <button @click="handleSwitchStacked"> switch stacked {{ stacked }}</button>
     <Toaster :stacked="stacked" />

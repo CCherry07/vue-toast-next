@@ -7,7 +7,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 export default defineConfig({
   plugins: [
     dts({
-      entryRoot:"./src",
+      entryRoot: "./src",
       insertTypesEntry: true,
       cleanVueFileName: true,
       outDir: 'dist',
@@ -25,7 +25,7 @@ export default defineConfig({
     },
     rollupOptions: {
       input: ['./src/index.ts'],
-      external: ['vue'],
+      external: ['vue', 'goober'],
       output: [
         {
           dir: "dist",
